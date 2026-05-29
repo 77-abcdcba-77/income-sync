@@ -1841,4 +1841,5 @@ if __name__ == "__main__":
     start_sync_loop()
     print("后台同步已启动（每 30 秒同步一次）")
 
-    app.run(host="0.0.0.0", port=5050, debug=False, use_reloader=False)
+    port = int(os.environ.get("PORT", 5050))
+    app.run(host="0.0.0.0", port=port, debug=False, use_reloader=False)
