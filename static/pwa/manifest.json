@@ -1,0 +1,14 @@
+{
+  "name": "项目收支统计系统",
+  "short_name": "收支统计",
+  "description": "管理项目订单、客户付款、预算追加和工具费用支出",
+  "start_url": "/pwa/",
+  "display": "standalone",
+  "background_color": "#F8FAFC",
+  "theme_color": "#1D4ED8",
+  "orientation": "portrait-primary",
+  "icons": [
+    {"src": "/static/pwa/icons/icon-192.png", "sizes": "192x192", "type": "image/png"},
+    {"src": "/static/pwa/icons/icon-512.png", "sizes": "512x512", "type": "image/png"}
+  ]
+}

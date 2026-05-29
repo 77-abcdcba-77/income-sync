@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+<meta name="theme-color" content="#1D4ED8">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="收支统计">
+<link rel="manifest" href="/static/pwa/manifest.json">
+<link rel="apple-touch-icon" href="/static/pwa/icons/icon-192.png">
+<link rel="stylesheet" href="/static/pwa/css/app.css">
+<title>项目收支统计</title>
+</head>
+<body>
+
+<header class="topbar">
+  <span class="topbar-title">项目收支统计</span>
+  <span class="sync-badge" id="syncBadge" title="同步状态">⟳</span>
+</header>
+
+<main id="mainContent"></main>
+
+<nav class="tabbar">
+  <button class="tab active" data-tab="dashboard">📊 看板</button>
+  <button class="tab" data-tab="orders">📋 订单</button>
+  <button class="tab" data-tab="expenses">💸 支出</button>
+  <button class="tab" data-tab="sync">🔄 同步</button>
+</nav>
+
+<!-- Modal overlay -->
+<div class="modal-overlay hidden" id="modalOverlay">
+  <div class="modal" id="modalBox"></div>
+</div>
+
+<script src="https://unpkg.com/dexie@3.2.6/dist/dexie.js"></script>
+<script src="/static/pwa/js/db.js"></script>
+<script src="/static/pwa/js/sync.js"></script>
+<script src="/static/pwa/js/app.js"></script>
+</body>
+</html>

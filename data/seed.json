@@ -1,0 +1,722 @@
+[
+  {
+    "wechat": "-0506bbx8",
+    "task_name": "修改",
+    "order_no": "MZ300025",
+    "deadline_status": "已交",
+    "price": 400.0,
+    "paid": 0.0,
+    "remaining": 400.0
+  },
+  {
+    "wechat": "-0506bbx8",
+    "task_name": "融合情感词典和正文语义的视频恶意评论检测（论文）",
+    "order_no": "WD890330",
+    "deadline_status": "已交",
+    "price": 400.0,
+    "paid": 200.0,
+    "remaining": 200.0
+  },
+  {
+    "wechat": "-0506bbx8",
+    "task_name": "健身",
+    "order_no": "",
+    "deadline_status": "已交",
+    "price": 400.0,
+    "paid": 200.0,
+    "remaining": 200.0
+  },
+  {
+    "wechat": "-0506bbx8",
+    "task_name": "基于Python的智能高校图书馆座位预约系统的设计与实现",
+    "order_no": "HD263785",
+    "deadline_status": "已交",
+    "price": 500.0,
+    "paid": 250.0,
+    "remaining": 250.0
+  },
+  {
+    "wechat": "-0506bbx8",
+    "task_name": "根据学生提供的系统模型和数据跑一遍，并且进行模型测试效果+论文里面加写一章测试章节",
+    "order_no": "GD895625",
+    "deadline_status": "已交",
+    "price": 600.0,
+    "paid": 0.0,
+    "remaining": 600.0
+  },
+  {
+    "wechat": "-0506bbx8",
+    "task_name": "基于VMD-CNN-LSTM的风电功率预测\n字数",
+    "order_no": "WD890565",
+    "deadline_status": "已交",
+    "price": 600.0,
+    "paid": 0.0,
+    "remaining": 600.0
+  },
+  {
+    "wechat": "-0506bbx8",
+    "task_name": "基于java的免税商品优选购物商场设计与实现",
+    "order_no": "HD2637104",
+    "deadline_status": "已交",
+    "price": 700.0,
+    "paid": 350.0,
+    "remaining": 350.0
+  },
+  {
+    "wechat": "-0506bbx8",
+    "task_name": "深度学习驱动的RIS波束成形优化算法研究",
+    "order_no": "HD2637146",
+    "deadline_status": "已交",
+    "price": 800.0,
+    "paid": 0.0,
+    "remaining": 800.0
+  },
+  {
+    "wechat": "-0506bbx8",
+    "task_name": "旅行足迹",
+    "order_no": "",
+    "deadline_status": "已交",
+    "price": 800.0,
+    "paid": 400.0,
+    "remaining": 400.0
+  },
+  {
+    "wechat": "-0506bbx8",
+    "task_name": "基于投资者画像的股票个性化推荐系统研究",
+    "order_no": "WD890335",
+    "deadline_status": "已交",
+    "price": 1000.0,
+    "paid": 500.0,
+    "remaining": 500.0
+  },
+  {
+    "wechat": "-0506bbx8",
+    "task_name": "基于大模型的多模态文档内容提取与知识图谱构建",
+    "order_no": "WD890316",
+    "deadline_status": "已交",
+    "price": 1100.0,
+    "paid": 0.0,
+    "remaining": 1100.0
+  },
+  {
+    "wechat": "-0506bbx8",
+    "task_name": "基于机器学习的驾驶行为检测算法的设计与实现",
+    "order_no": "WD890363",
+    "deadline_status": "已交",
+    "price": 1100.0,
+    "paid": 0.0,
+    "remaining": 1100.0
+  },
+  {
+    "wechat": "-0506bbx8",
+    "task_name": "基于 YOLOv7 与注意力机制的工业零件表面缺陷检测方法研究",
+    "order_no": "WD890320",
+    "deadline_status": "已交",
+    "price": 1100.0,
+    "paid": 550.0,
+    "remaining": 550.0
+  },
+  {
+    "wechat": "-0506bbx8",
+    "task_name": "按照论文制作程序，然后按照老师意见修改论文",
+    "order_no": "HD2637152",
+    "deadline_status": "2026-05-15",
+    "price": 900.0,
+    "paid": 0.0,
+    "remaining": 900.0
+  },
+  {
+    "wechat": "abcd192263133",
+    "task_name": "基于MATLAB的数字信号处理仿真平台设计",
+    "order_no": "J042801",
+    "deadline_status": "已交",
+    "price": 700.0,
+    "paid": 0.0,
+    "remaining": 700.0
+  },
+  {
+    "wechat": "abcd192263133",
+    "task_name": "基于Packet Tracer的网络--校园宿舍局域网VLAN建设研究",
+    "order_no": "f042802",
+    "deadline_status": "已交",
+    "price": 850.0,
+    "paid": 0.0,
+    "remaining": 850.0
+  },
+  {
+    "wechat": "Alj1468",
+    "task_name": "基于区块链冷链生鲜追溯系统的实现与应用",
+    "order_no": "CD68888",
+    "deadline_status": "已交",
+    "price": 300.0,
+    "paid": 150.0,
+    "remaining": 150.0
+  },
+  {
+    "wechat": "battlez666",
+    "task_name": "改论文",
+    "order_no": "1171",
+    "deadline_status": "已交",
+    "price": 300.0,
+    "paid": 0.0,
+    "remaining": 300.0
+  },
+  {
+    "wechat": "battlez666",
+    "task_name": "基于Spark的网易云音乐分析系统 (程序+论文) ",
+    "order_no": "1123",
+    "deadline_status": "已交",
+    "price": 900.0,
+    "paid": 0.0,
+    "remaining": 900.0
+  },
+  {
+    "wechat": "cook0613",
+    "task_name": "毕设：复现+优化",
+    "order_no": "",
+    "deadline_status": "已交",
+    "price": 2400.0,
+    "paid": 1200.0,
+    "remaining": 1200.0
+  },
+  {
+    "wechat": "FenZhiDao-yudu",
+    "task_name": "t136",
+    "order_no": "t136",
+    "deadline_status": "已交",
+    "price": 1000.0,
+    "paid": 0.0,
+    "remaining": 1000.0
+  },
+  {
+    "wechat": "get191",
+    "task_name": "毕设：四月中能做出界面之前的内容",
+    "order_no": "",
+    "deadline_status": "修改",
+    "price": 1120.0,
+    "paid": 0.0,
+    "remaining": 1120.0
+  },
+  {
+    "wechat": "L1017-ZJ",
+    "task_name": "学生在线学习系统-先出后端的",
+    "order_no": "Y1014",
+    "deadline_status": "已交",
+    "price": 500.0,
+    "paid": 0.0,
+    "remaining": 500.0
+  },
+  {
+    "wechat": "L1017-ZJ",
+    "task_name": "",
+    "order_no": "P1181/H042接",
+    "deadline_status": "已交",
+    "price": 900.0,
+    "paid": 0.0,
+    "remaining": 900.0
+  },
+  {
+    "wechat": "RLD0315",
+    "task_name": "",
+    "order_no": "",
+    "deadline_status": "已交",
+    "price": 315.0,
+    "paid": 315.0,
+    "remaining": 0.0
+  },
+  {
+    "wechat": "RLD0315",
+    "task_name": "",
+    "order_no": "",
+    "deadline_status": "已交",
+    "price": 350.0,
+    "paid": 350.0,
+    "remaining": 0.0
+  },
+  {
+    "wechat": "RLD0315",
+    "task_name": "",
+    "order_no": "",
+    "deadline_status": "已交",
+    "price": 350.0,
+    "paid": 350.0,
+    "remaining": 0.0
+  },
+  {
+    "wechat": "RLD0315",
+    "task_name": "",
+    "order_no": "",
+    "deadline_status": "修改",
+    "price": 630.0,
+    "paid": 0.0,
+    "remaining": 630.0
+  },
+  {
+    "wechat": "RLD0315",
+    "task_name": "",
+    "order_no": "",
+    "deadline_status": "已交",
+    "price": 700.0,
+    "paid": 700.0,
+    "remaining": 0.0
+  },
+  {
+    "wechat": "RLD0315",
+    "task_name": "",
+    "order_no": "",
+    "deadline_status": "已交",
+    "price": 210.0,
+    "paid": 210.0,
+    "remaining": 0.0
+  },
+  {
+    "wechat": "RLD0315",
+    "task_name": "",
+    "order_no": "",
+    "deadline_status": "已交",
+    "price": 210.0,
+    "paid": 210.0,
+    "remaining": 0.0
+  },
+  {
+    "wechat": "RLD0315",
+    "task_name": "",
+    "order_no": "",
+    "deadline_status": "已交",
+    "price": 280.0,
+    "paid": 280.0,
+    "remaining": 0.0
+  },
+  {
+    "wechat": "RLD0315",
+    "task_name": "",
+    "order_no": "",
+    "deadline_status": "修改",
+    "price": 420.0,
+    "paid": 0.0,
+    "remaining": 420.0
+  },
+  {
+    "wechat": "RLD0315",
+    "task_name": "",
+    "order_no": "",
+    "deadline_status": "修改",
+    "price": 490.0,
+    "paid": 0.0,
+    "remaining": 490.0
+  },
+  {
+    "wechat": "RLD0315",
+    "task_name": "",
+    "order_no": "",
+    "deadline_status": "2026-05-11",
+    "price": 630.0,
+    "paid": 0.0,
+    "remaining": 630.0
+  },
+  {
+    "wechat": "RRD131497",
+    "task_name": "",
+    "order_no": "",
+    "deadline_status": "已交",
+    "price": 350.0,
+    "paid": 350.0,
+    "remaining": 0.0
+  },
+  {
+    "wechat": "RRD131497",
+    "task_name": "宫殿",
+    "order_no": "",
+    "deadline_status": "2026-05-02",
+    "price": 350.0,
+    "paid": 0.0,
+    "remaining": 350.0
+  },
+  {
+    "wechat": "RRD131497",
+    "task_name": "分割",
+    "order_no": "",
+    "deadline_status": "2026-05-02",
+    "price": 350.0,
+    "paid": 0.0,
+    "remaining": 350.0
+  },
+  {
+    "wechat": "RRD131497",
+    "task_name": "matlab+resnet",
+    "order_no": "",
+    "deadline_status": "已交",
+    "price": 560.0,
+    "paid": 560.0,
+    "remaining": 0.0
+  },
+  {
+    "wechat": "teo890",
+    "task_name": "7242",
+    "order_no": "7242",
+    "deadline_status": "已交",
+    "price": 350.0,
+    "paid": 350.0,
+    "remaining": 0.0
+  },
+  {
+    "wechat": "Tom20200902",
+    "task_name": "这三四天内代码完成  28之前给初稿",
+    "order_no": "KS20259",
+    "deadline_status": "已交",
+    "price": 450.0,
+    "paid": 450.0,
+    "remaining": 0.0
+  },
+  {
+    "wechat": "Tom20200902",
+    "task_name": "改论文",
+    "order_no": "KS20491",
+    "deadline_status": "已交",
+    "price": 500.0,
+    "paid": 300.0,
+    "remaining": 200.0
+  },
+  {
+    "wechat": "Tom20200902",
+    "task_name": "系统+论文",
+    "order_no": "ks20513",
+    "deadline_status": "已交",
+    "price": 700.0,
+    "paid": 350.0,
+    "remaining": 350.0
+  },
+  {
+    "wechat": "Tom20200902",
+    "task_name": "甲骨文",
+    "order_no": "MMB10016",
+    "deadline_status": "已交",
+    "price": 800.0,
+    "paid": 400.0,
+    "remaining": 400.0
+  },
+  {
+    "wechat": "Tom20200902",
+    "task_name": "基于SpringBoot的在线直播互动平台设计与实现",
+    "order_no": "KS10252",
+    "deadline_status": "已交",
+    "price": 800.0,
+    "paid": 400.0,
+    "remaining": 400.0
+  },
+  {
+    "wechat": "Tom20200902",
+    "task_name": "基于粒子群优化(PSO) 的无人机航迹规划仿真",
+    "order_no": "KS20476",
+    "deadline_status": "已交",
+    "price": 1000.0,
+    "paid": 500.0,
+    "remaining": 500.0
+  },
+  {
+    "wechat": "Tom20200902",
+    "task_name": "基于轻量级卷积神经网络的眼底病变筛查模型设计",
+    "order_no": "KS20481",
+    "deadline_status": "已交",
+    "price": 1000.0,
+    "paid": 500.0,
+    "remaining": 500.0
+  },
+  {
+    "wechat": "Tom20200902",
+    "task_name": "开源代码调整",
+    "order_no": "KS20508",
+    "deadline_status": "已交",
+    "price": 1200.0,
+    "paid": 600.0,
+    "remaining": 600.0
+  },
+  {
+    "wechat": "Tom20200902",
+    "task_name": "",
+    "order_no": "波波老师转",
+    "deadline_status": "已交",
+    "price": 900.0,
+    "paid": 450.0,
+    "remaining": 450.0
+  },
+  {
+    "wechat": "x807795595",
+    "task_name": "全包",
+    "order_no": "H211",
+    "deadline_status": "已交",
+    "price": 700.0,
+    "paid": 0.0,
+    "remaining": 700.0
+  },
+  {
+    "wechat": "x807795595",
+    "task_name": "全包",
+    "order_no": "",
+    "deadline_status": "已交",
+    "price": 800.0,
+    "paid": 400.0,
+    "remaining": 400.0
+  },
+  {
+    "wechat": "xxlove123520",
+    "task_name": "基于机器视觉的表面缺陷检测算法研究",
+    "order_no": "Z990024",
+    "deadline_status": "已交",
+    "price": 800.0,
+    "paid": 400.0,
+    "remaining": 400.0
+  },
+  {
+    "wechat": "xxlove123520",
+    "task_name": "基于声纳技术的变压器冷却器异响识别方法研究",
+    "order_no": "Z990027",
+    "deadline_status": "已交",
+    "price": 1100.0,
+    "paid": 550.0,
+    "remaining": 550.0
+  },
+  {
+    "wechat": "ZCYyyds1715",
+    "task_name": "写论文",
+    "order_no": "04",
+    "deadline_status": "已交",
+    "price": 150.0,
+    "paid": 150.0,
+    "remaining": 0.0
+  },
+  {
+    "wechat": "ZCYyyds1715",
+    "task_name": "修改",
+    "order_no": "05",
+    "deadline_status": "已交",
+    "price": 150.0,
+    "paid": 150.0,
+    "remaining": 0.0
+  },
+  {
+    "wechat": "ZCYyyds1715",
+    "task_name": "写论文",
+    "order_no": "01",
+    "deadline_status": "已交",
+    "price": 300.0,
+    "paid": 0.0,
+    "remaining": 300.0
+  },
+  {
+    "wechat": "ZCYyyds1715",
+    "task_name": "写论文",
+    "order_no": "02",
+    "deadline_status": "已交",
+    "price": 300.0,
+    "paid": 300.0,
+    "remaining": 0.0
+  },
+  {
+    "wechat": "ZCYyyds1715",
+    "task_name": "写论文",
+    "order_no": "03",
+    "deadline_status": "已交",
+    "price": 300.0,
+    "paid": 0.0,
+    "remaining": 300.0
+  },
+  {
+    "wechat": "ZCYyyds1715",
+    "task_name": "写论文",
+    "order_no": "06",
+    "deadline_status": "2026-05-07",
+    "price": 350.0,
+    "paid": 0.0,
+    "remaining": 350.0
+  },
+  {
+    "wechat": "ZCYyyds1715",
+    "task_name": "写论文",
+    "order_no": "07",
+    "deadline_status": "2026-05-07",
+    "price": 350.0,
+    "paid": 0.0,
+    "remaining": 350.0
+  },
+  {
+    "wechat": "胡俊武 (企业)",
+    "task_name": "在线去雨的安监图像恢复算法研究，已有代码程序，根据代码程序写论文",
+    "order_no": "GL040416",
+    "deadline_status": "已交",
+    "price": 500.0,
+    "paid": 0.0,
+    "remaining": 500.0
+  },
+  {
+    "wechat": "凯邦教育-小米",
+    "task_name": "",
+    "order_no": "KBB042004",
+    "deadline_status": "已交",
+    "price": 800.0,
+    "paid": 0.0,
+    "remaining": 800.0
+  },
+  {
+    "wechat": "凯邦教育-小米",
+    "task_name": "",
+    "order_no": "KBB042002",
+    "deadline_status": "已交",
+    "price": 1000.0,
+    "paid": 0.0,
+    "remaining": 1000.0
+  },
+  {
+    "wechat": "墨雨",
+    "task_name": "毕设：中期答辩及PPT报告",
+    "order_no": "",
+    "deadline_status": "2026-05-01",
+    "price": 1000.0,
+    "paid": 0.0,
+    "remaining": 1000.0
+  },
+  {
+    "wechat": "售后对接007",
+    "task_name": "matlab",
+    "order_no": "",
+    "deadline_status": "已交",
+    "price": 400.0,
+    "paid": 400.0,
+    "remaining": 0.0
+  },
+  {
+    "wechat": "壹壹品控",
+    "task_name": "",
+    "order_no": "KBA040303",
+    "deadline_status": "修改",
+    "price": 260.0,
+    "paid": 0.0,
+    "remaining": 260.0
+  },
+  {
+    "wechat": "逸致教育-陆奕",
+    "task_name": "",
+    "order_no": "GL032412",
+    "deadline_status": "已交",
+    "price": 400.0,
+    "paid": 150.0,
+    "remaining": 250.0
+  },
+  {
+    "wechat": "逸致教育-陆奕",
+    "task_name": "",
+    "order_no": "517",
+    "deadline_status": "",
+    "price": 400.0,
+    "paid": 0.0,
+    "remaining": 400.0
+  },
+  {
+    "wechat": "逸致教育-陆奕",
+    "task_name": "",
+    "order_no": "0503",
+    "deadline_status": "已交",
+    "price": 400.0,
+    "paid": 0.0,
+    "remaining": 400.0
+  },
+  {
+    "wechat": "逸致教育-陆奕",
+    "task_name": "",
+    "order_no": "GL042247",
+    "deadline_status": "已交",
+    "price": 400.0,
+    "paid": 200.0,
+    "remaining": 200.0
+  },
+  {
+    "wechat": "逸致教育-陆奕",
+    "task_name": "",
+    "order_no": "1070",
+    "deadline_status": "已交",
+    "price": 400.0,
+    "paid": 200.0,
+    "remaining": 200.0
+  },
+  {
+    "wechat": "逸致教育-陆奕",
+    "task_name": "修改系统",
+    "order_no": "2908",
+    "deadline_status": "已交",
+    "price": 400.0,
+    "paid": 200.0,
+    "remaining": 200.0
+  },
+  {
+    "wechat": "逸致教育-陆奕",
+    "task_name": "修改系统，“互联网+教育”模式下的在线教育平台设计与实现",
+    "order_no": "GL033103",
+    "deadline_status": "已交",
+    "price": 400.0,
+    "paid": 200.0,
+    "remaining": 200.0
+  },
+  {
+    "wechat": "逸致教育-陆奕",
+    "task_name": "基于抖音平台的 GTAL 品牌直播营销策略研究",
+    "order_no": "GL042752",
+    "deadline_status": "已交",
+    "price": 500.0,
+    "paid": 0.0,
+    "remaining": 500.0
+  },
+  {
+    "wechat": "逸致教育-陆奕",
+    "task_name": "",
+    "order_no": "ZB042115",
+    "deadline_status": "已交",
+    "price": 600.0,
+    "paid": 300.0,
+    "remaining": 300.0
+  },
+  {
+    "wechat": "逸致教育-陆奕",
+    "task_name": "",
+    "order_no": "ZB042116",
+    "deadline_status": "已交",
+    "price": 600.0,
+    "paid": 300.0,
+    "remaining": 300.0
+  },
+  {
+    "wechat": "逸致教育-陆奕",
+    "task_name": "",
+    "order_no": "GL042818",
+    "deadline_status": "已交",
+    "price": 600.0,
+    "paid": 300.0,
+    "remaining": 300.0
+  },
+  {
+    "wechat": "逸致教育-陆奕",
+    "task_name": "基于轻量级深度学习的交通标志/车道线识别系统设计",
+    "order_no": "GL010816",
+    "deadline_status": "已交",
+    "price": 800.0,
+    "paid": 0.0,
+    "remaining": 800.0
+  },
+  {
+    "wechat": "逸致教育-陆奕",
+    "task_name": "",
+    "order_no": "3166",
+    "deadline_status": "已交",
+    "price": 300.0,
+    "paid": 150.0,
+    "remaining": 150.0
+  },
+  {
+    "wechat": "",
+    "task_name": "蛋白质预测",
+    "order_no": "",
+    "deadline_status": "已交",
+    "price": 560.0,
+    "paid": 560.0,
+    "remaining": 0.0
+  }
+]

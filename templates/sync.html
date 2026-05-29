@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+{% block title %}P2P 同步状态 - 项目收支统计系统{% endblock %}
+
+{% block content %}
+<header class="topbar">
+  <div>
+    <p class="eyebrow">P2P Sync</p>
+    <h1>多设备同步状态</h1>
+  </div>
+  <div class="top-actions">
+    <button id="manualSyncBtn" class="btn primary">立即同步</button>
+  </div>
+</header>
+
+<section class="panel">
+  <div class="section-title"><h2>设备信息</h2></div>
+  <div class="sync-grid" id="deviceInfo">
+    <div class="sync-stat-card">
+      <div class="label">设备 ID</div>
+      <div class="value mono" id="devId">加载中...</div>
+    </div>
+    <div class="sync-stat-card">
+      <div class="label">显示名称</div>
+      <div class="value" id="devName">加载中...</div>
+    </div>
+    <div class="sync-stat-card">
+      <div class="label">中继服务器</div>
+      <div class="value mono" id="relayAddr">加载中...</div>
+    </div>
+    <div class="sync-stat-card">
+      <div class="label">同步间隔</div>
+      <div class="value" id="syncInterval">加载中...</div>
+    </div>
+  </div>
+</section>
+
+<section class="panel">
+  <div class="section-title"><h2>同步状态</h2></div>
+  <div class="sync-grid" id="syncState">
+    <div class="sync-stat-card">
+      <div class="label">待同步变更</div>
+      <div class="value big" id="pendingCount">-</div>
+    </div>
+    <div class="sync-stat-card">
+      <div class="label">累计变更记录</div>
+      <div class="value big" id="totalCount">-</div>
+    </div>
+    <div class="sync-stat-card">
+      <div class="label">上次拉取序号</div>
+      <div class="value mono" id="lastPullSeq">-</div>
+    </div>
+    <div class="sync-stat-card">
+      <div class="label">上次推送</div>
+      <div class="value" id="lastPushAt">-</div>
+    </div>
+  </div>
+</section>
+
+<section class="panel">
+  <div class="section-title"><h2>最近变更记录</h2></div>
+  <div id="recentChanges">
+    <div class="status-line">加载中...</div>
+  </div>
+</section>
+
+<section class="panel">
+  <div class="section-title"><h2>移动端访问</h2></div>
+  <div style="background:#f8fafc;padding:16px;border-radius:8px">
+    <p>在手机浏览器中访问以下地址，或扫描二维码：</p>
+    <p style="font-size:18px;font-weight:700;margin:8px 0" id="pwaUrl">-</p>
+    <p style="color:#64748b;font-size:13px">iOS: Safari 打开 → 分享 → 添加到主屏幕</p>
+    <p style="color:#64748b;font-size:13px">Android: Chrome 打开 → 菜单 → 添加到主屏幕</p>
+  </div>
+</section>
+
+<style>
+.sync-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+.sync-stat-card { background: #f8fafc; padding: 16px; border-radius: 8px; }
+.sync-stat-card .label { font-size: 12px; color: #64748b; margin-bottom: 4px; }
+.sync-stat-card .value { font-size: 16px; font-weight: 600; }
+.sync-stat-card .value.big { font-size: 28px; }
+.sync-stat-card .value.mono { font-family: monospace; font-size: 14px; }
+.changes-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.changes-table th, .changes-table td { padding: 6px 10px; border-bottom: 1px solid #e2e8f0; text-align: left; }
+.changes-table th { color: #64748b; font-weight: 600; }
+.synced-tag { display: inline-block; padding: 1px 8px; border-radius: 10px; font-size: 11px; }
+.synced-tag.yes { background: #dcfce7; color: #16a34a; }
+.synced-tag.no { background: #fef3c7; color: #d97706; }
+</style>
+
+<script>
+async function loadSyncState() {
+  try {
+    const resp = await fetch("/api/sync/state");
+    const data = await resp.json();
+    if (!data.ok) return;
+
+    document.getElementById("devId").textContent = data.device.device_id;
+    document.getElementById("devName").textContent = data.device.display_name;
+    document.getElementById("relayAddr").textContent = data.relay_url;
+    document.getElementById("pendingCount").textContent = data.sync.pending_changes;
+    document.getElementById("totalCount").textContent = data.sync.total_changes;
+    document.getElementById("lastPullSeq").textContent = data.sync.last_pull_seq;
+    document.getElementById("lastPushAt").textContent = data.sync.last_push_at
+      ? new Date(data.sync.last_push_at * 1000).toLocaleString("zh-CN")
+      : "从未";
+
+    const pwaUrl = window.location.origin + "/pwa/";
+    document.getElementById("pwaUrl").textContent = pwaUrl;
+
+    const tbody = data.recent_changes.map(c =>
+      `<tr>
+        <td style="font-family:monospace;font-size:12px">${c.change_id.slice(0,8)}...</td>
+        <td>${c.table_name}</td>
+        <td>${c.row_id}</td>
+        <td>${c.operation}</td>
+        <td><span class="synced-tag ${c.synced?'yes':'no'}">${c.synced?'已同步':'待同步'}</span></td>
+      </tr>`
+    ).join("");
+
+    document.getElementById("recentChanges").innerHTML = `
+      <table class="changes-table">
+        <thead><tr><th>变更 ID</th><th>表</th><th>行</th><th>操作</th><th>状态</th></tr></thead>
+        <tbody>${tbody}</tbody>
+      </table>
+    `;
+  } catch(e) {
+    document.getElementById("devId").textContent = "加载失败: " + e.message;
+  }
+}
+
+document.getElementById("manualSyncBtn").addEventListener("click", async () => {
+  const btn = document.getElementById("manualSyncBtn");
+  btn.disabled = true;
+  btn.textContent = "同步中...";
+  try {
+    const resp = await fetch("/api/sync/push", { method: "POST" });
+    const data = await resp.json();
+    btn.textContent = `推送 ${data.pushed} · 拉取 ${data.pulled} · 剩余 ${data.pending}`;
+    setTimeout(() => { btn.textContent = "立即同步"; btn.disabled = false; }, 2000);
+    loadSyncState();
+  } catch(e) {
+    btn.textContent = "同步失败";
+    btn.disabled = false;
+  }
+});
+
+loadSyncState();
+</script>
+{% endblock %}

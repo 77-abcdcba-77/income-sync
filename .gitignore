@@ -1,0 +1,16 @@
+.venv/
+__pycache__/
+*.pyc
+.idea/
+data/records.db
+data/relay.db
+data/device.json
+data/full_export.json
+data/seed_data.js
+exports/
+build/
+dist/
+*.spec
+server*.err
+server*.out
+.claude/

@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %}订单管理 - 项目收支统计系统{% endblock %}
+
+{% block content %}
+<header class="topbar">
+  <div>
+    <p class="eyebrow">Order Management</p>
+    <h1>订单管理</h1>
+  </div>
+  <div class="top-actions">
+    <button id="refreshBtn" class="btn secondary" type="button">刷新</button>
+    <a class="btn primary" href="/export/xlsx">导出 XLSX</a>
+  </div>
+</header>
+
+<section class="panel form-panel">
+  <div class="section-title">
+    <div><p class="eyebrow">Order</p><h2 id="orderFormTitle">新增订单</h2></div>
+    <button id="cancelOrderEditBtn" class="btn secondary small hidden" type="button">取消编辑</button>
+  </div>
+  <form id="orderForm" class="record-form">
+    <input type="hidden" id="recordId">
+    <label>接单日期<input id="accepted_date" type="date"></label>
+    <label>微信号<input id="wechat" placeholder="如：RLD0315"></label>
+    <label>任务名字<input id="task_name" placeholder="任务 / 论文 / 系统名称"></label>
+    <label>单号<input id="order_no" placeholder="订单编号"></label>
+    <label>截止时间 / 状态<input id="deadline_status" placeholder="已交 / 修改 / 2026-05-15"></label>
+    <label>基础价格<input id="price" type="number" step="0.01" value="0"></label>
+    <label>首笔付款金额<input id="initial_paid" type="number" step="0.01" value="0"></label>
+    <label>首笔付款日期<input id="initial_pay_date" type="date"></label>
+    <label>剩余预览<input id="remainingPreview" readonly value="0"></label>
+    <button class="btn primary submit" id="orderSubmitBtn" type="submit">保存订单</button>
+  </form>
+</section>
+
+<section class="panel">
+  <div class="section-title">
+    <div><p class="eyebrow">Client Summary</p><h2>客户汇总</h2></div>
+    <span id="clientFilterBadge" class="hidden" style="color:var(--blue);font-weight:900;font-size:13px;"></span>
+  </div>
+  <div id="clientSummary" class="client-grid"></div>
+</section>
+
+<section class="panel table-panel">
+  <div class="section-title table-title">
+    <div><p class="eyebrow">Database</p><h2 id="orderTableTitle">订单数据库</h2></div>
+    <div class="table-tools">
+      <div class="filter-row" id="filterRow">
+        <button class="filter-chip active" data-filter="all" type="button">全部</button>
+        <button class="filter-chip" data-filter="unpaid" type="button">待收</button>
+        <button class="filter-chip" data-filter="paid" type="button">结清</button>
+        <button class="filter-chip" data-filter="overdue" type="button">逾期</button>
+        <button class="filter-chip" data-filter="high" type="button">高金额</button>
+      </div>
+      <input id="searchInput" class="search" placeholder="搜索微信号、任务名、单号或状态">
+    </div>
+  </div>
+  <div id="tableSummary" class="status-line">-</div>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th><th>接单日期</th><th>微信号</th><th>任务名字</th><th>单号</th><th>状态</th><th>基础价格</th><th>追加预算</th><th>订单总价</th><th>已付</th><th>剩余</th><th>操作</th>
+        </tr>
+      </thead>
+      <tbody id="recordsBody"></tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}

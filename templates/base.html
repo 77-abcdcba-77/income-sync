@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}项目收支统计系统{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body data-page="{{ page }}">
+  <div class="pixel-bg"></div>
+
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="/dashboard" class="nav-brand">项目收支统计</a>
+      <div class="nav-links">
+        <a href="/dashboard" class="nav-link {% if page == 'dashboard' %}active{% endif %}">仪表盘</a>
+        <a href="/orders" class="nav-link {% if page == 'orders' %}active{% endif %}">订单管理</a>
+        <a href="/payments" class="nav-link {% if page == 'payments' %}active{% endif %}">收支管理</a>
+        <a href="/expenses" class="nav-link {% if page == 'expenses' %}active{% endif %}">支出管理</a>
+        <a href="/import-export" class="nav-link {% if page == 'import-export' %}active{% endif %}">导入导出</a>
+        <a href="/sync" class="nav-link {% if page == 'sync' %}active{% endif %}" title="多设备同步状态">设备同步</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="layout">
+    {% block content %}{% endblock %}
+  </main>
+
+  <div id="toast" class="toast"></div>
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

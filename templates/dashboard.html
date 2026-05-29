@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block title %}仪表盘 - 项目收支统计系统{% endblock %}
+
+{% block content %}
+<header class="topbar">
+  <div>
+    <p class="eyebrow">Income / Expense / Version Control</p>
+    <h1>项目收支统计系统</h1>
+  </div>
+  <div class="top-actions">
+    <button id="refreshBtn" class="btn secondary" type="button">刷新</button>
+  </div>
+</header>
+
+<section class="kpi-grid">
+  <article class="kpi-card"><span>订单数</span><strong id="kpiCount">0</strong><em>当前记录</em></article>
+  <article class="kpi-card accent-blue"><span>订单总价</span><strong id="kpiPrice">￥0</strong><em>基础价 + 追加</em></article>
+  <article class="kpi-card accent-green"><span>已到账</span><strong id="kpiPaid">￥0</strong><em id="kpiPaidRate">到账率 0%</em></article>
+  <article class="kpi-card accent-red"><span>剩余未收</span><strong id="kpiRemaining">￥0</strong><em id="kpiUnpaidCount">0 单待收</em></article>
+  <article class="kpi-card"><span>今日收入</span><strong id="kpiTodayIncome">￥0</strong><em>按付款日期</em></article>
+  <article class="kpi-card"><span>本月收入</span><strong id="kpiMonthIncome">￥0</strong><em>月度到账</em></article>
+  <article class="kpi-card accent-orange"><span>总支出</span><strong id="kpiExpense">￥0</strong><em>工具费用</em></article>
+  <article class="kpi-card accent-green"><span>净收入</span><strong id="kpiNet">￥0</strong><em id="kpiAvgOrder">客单价 ￥0</em></article>
+</section>
+
+<section class="insight-grid">
+  <div class="insight-card">
+    <div class="mini-head"><h3>收款提醒</h3><span id="riskBadge">0 项</span></div>
+    <div id="unpaidBody" class="list-stack"></div>
+  </div>
+  <div class="insight-card">
+    <div class="mini-head"><h3>客户排行</h3><span>Top 5</span></div>
+    <div id="clientBody" class="list-stack"></div>
+  </div>
+  <div class="insight-card">
+    <div class="mini-head"><h3>状态分布</h3><span id="statusSummary">-</span></div>
+    <div id="statusBody" class="tag-stack"></div>
+  </div>
+</section>
+
+<section class="panel unpaid-overview-panel">
+  <div class="section-title">
+    <div><p class="eyebrow">Unpaid Tracking</p><h2>未付款订单概览</h2></div>
+    <div class="unpaid-tabs">
+      <button class="filter-chip active" data-unpaid-tab="all" type="button">全部待收</button>
+      <button class="filter-chip" data-unpaid-tab="partial" type="button">部分付款</button>
+      <button class="filter-chip" data-unpaid-tab="none" type="button">未付款</button>
+    </div>
+  </div>
+  <div class="unpaid-grid" id="unpaidGrid">
+    <div class="unpaid-col">
+      <div class="unpaid-header partial-header">
+        <div><h3>部分付款</h3><span>已付一部分，仍有尾款未结清</span></div>
+        <div class="unpaid-stats"><strong id="partialCount">0</strong><em>单</em><b id="partialTotal">￥0</b></div>
+      </div>
+      <div class="unpaid-list" id="partialBody"></div>
+    </div>
+    <div class="unpaid-col">
+      <div class="unpaid-header none-header">
+        <div><h3>未付款</h3><span>尚未收到任何付款</span></div>
+        <div class="unpaid-stats"><strong id="noneCount">0</strong><em>单</em><b id="noneTotal">￥0</b></div>
+      </div>
+      <div class="unpaid-list" id="noneBody"></div>
+    </div>
+  </div>
+</section>
+
+<section class="charts-grid">
+  <div class="panel chart-panel wide">
+    <div class="chart-head"><h3>每日收支</h3><span>收入 / 支出 / 净额</span></div>
+    <canvas id="dailyChart"></canvas>
+  </div>
+  <div class="panel chart-panel">
+    <div class="chart-head"><h3>月度现金流</h3><span>最近月份</span></div>
+    <canvas id="monthlyChart"></canvas>
+  </div>
+  <div class="panel chart-panel">
+    <div class="chart-head"><h3>订单状态</h3><span>按状态归类</span></div>
+    <canvas id="statusChart"></canvas>
+  </div>
+  <div class="panel chart-panel wide">
+    <div class="chart-head"><h3>客户金额排行</h3><span>按订单总价</span></div>
+    <canvas id="clientChart"></canvas>
+  </div>
+</section>
+{% endblock %}
