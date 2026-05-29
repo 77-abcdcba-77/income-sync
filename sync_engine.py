@@ -25,6 +25,12 @@ RELAY_URL = os.environ.get("SYNC_RELAY_URL", "https://income-sync-relay.onrender
 SYNC_INTERVAL_SEC = int(os.environ.get("SYNC_INTERVAL_SEC", 30))
 DEVICE_CONFIG_PATH = Path(__file__).resolve().parent / "data" / "device.json"
 
+# 同步专用代理（只影响 Relay 请求，不影响 Flask 服务）
+_sync_session = requests.Session()
+_sync_proxy = os.environ.get("SYNC_PROXY") or os.environ.get("HTTPS_PROXY") or os.environ.get("https_proxy") or ""
+if _sync_proxy:
+    _sync_session.proxies = {"https": _sync_proxy, "http": _sync_proxy}
+
 
 def get_device_id() -> str:
     """读取或生成设备标识。"""
@@ -150,10 +156,16 @@ def apply_remote_change(conn: sqlite3.Connection, change: dict) -> bool:
         if local_time == incoming_time and local_log["change_id"] > change_id:
             return False  # 时间相同，本地 change_id 更大，拒绝
 
+    # 映射表名（兼容 PWA 端 IndexedDB 表名和 Windows 端 SQLite 表名）
+    table_map = {"budgetChanges": "budget_changes"}
+    table_name = table_map.get(table_name, table_name)
+
     # 应用变更
     if operation == "DELETE":
         conn.execute(f"DELETE FROM {table_name} WHERE id = ?", (row_id,))
     elif operation == "INSERT":
+        if not new_data:
+            return False
         columns = ", ".join(new_data.keys())
         placeholders = ", ".join(["?"] * len(new_data))
         values = list(new_data.values())
@@ -162,6 +174,8 @@ def apply_remote_change(conn: sqlite3.Connection, change: dict) -> bool:
             values,
         )
     elif operation == "UPDATE":
+        if not new_data:
+            return False
         set_clause = ", ".join(f"{k} = ?" for k in new_data.keys())
         values = list(new_data.values()) + [row_id]
         conn.execute(f"UPDATE {table_name} SET {set_clause} WHERE id = ?", values)
@@ -204,7 +218,7 @@ def push_changes(conn: sqlite3.Connection) -> int:
         })
 
     try:
-        resp = requests.post(
+        resp = _sync_session.post(
             f"{RELAY_URL}/sync/push",
             json={"device_id": device_id, "last_pull_seq": state["last_pull_seq"], "changes": changes},
             timeout=10,
@@ -233,7 +247,7 @@ def pull_changes(conn: sqlite3.Connection) -> int:
     state = get_sync_state()
 
     try:
-        resp = requests.get(
+        resp = _sync_session.get(
             f"{RELAY_URL}/sync/pull",
             params={"device_id": device_id, "since_seq": state["last_pull_seq"]},
             timeout=10,
