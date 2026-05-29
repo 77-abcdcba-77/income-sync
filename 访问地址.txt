@@ -1,0 +1,68 @@
+============================================
+  项目收支统计系统 — 各平台访问地址
+============================================
+
+★★★ 推荐：云端主站（任何地方、任何设备都能用）★★★
+
+  主站地址：https://income-sync-relay.onrender.com
+
+  仪表盘：   https://income-sync-relay.onrender.com/dashboard
+  订单管理： https://income-sync-relay.onrender.com/orders
+  收支管理： https://income-sync-relay.onrender.com/payments
+  支出管理： https://income-sync-relay.onrender.com/expenses
+  导入导出： https://income-sync-relay.onrender.com/import-export
+
+  手机 PWA： https://income-sync-relay.onrender.com/pwa
+    Android: Chrome 打开 → 菜单 → 添加到主屏幕 → 像 App 一样
+    iOS:     Safari 打开 → 分享 → 添加到主屏幕 → 像 App 一样
+
+  注意：首次访问如果被休眠了，等 30 秒自动唤醒即可。
+
+============================================
+
+【Windows 桌面端（本地版，离线可用）】
+
+  本地访问：http://127.0.0.1:5050
+  局域网：  启动窗口会显示局域网 IP，如 http://10.67.47.74:5050
+  同步状态：http://127.0.0.1:5050/sync
+
+  启动方式：双击 "一键启动.bat"
+
+============================================
+
+【Android / iOS 手机】
+
+  方式1（推荐 - 有网就能用）：
+    浏览器打开 https://income-sync-relay.onrender.com
+    或安装 PWA 到桌面（见上方 PWA 说明）
+
+  方式2（局域网 - 要和电脑同 WiFi）：
+    浏览器打开电脑局域网 IP，如 http://10.67.47.74:5050
+
+============================================
+
+【互联网远程（出门在外、其他城市）】
+
+  直接打开 https://income-sync-relay.onrender.com 即可
+  不需要 VPN、不需要连电脑、不需要任何额外软件
+  只要有网就能用
+
+============================================
+
+【同步架构】
+
+  云端主站 (Render)  ＝  Web 应用 + 同步中继
+       ↑                      ↑
+       │ 直接访问              │ P2P 同步
+       │                      │
+  手机/平板/电脑           Windows 本地版
+  (浏览器直接打开)         (离线可用, 上线同步)
+
+  同步中继: https://income-sync-relay.onrender.com/sync/push
+  同步策略: 本地优先 + 离线可用 + LWW 冲突解决
+  同步间隔: 每 30 秒
+
+============================================
+
+  GitHub: https://github.com/77-abcdcba-77/income-sync
+  启动:   双击 "一键启动.bat"
