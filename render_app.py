@@ -503,6 +503,57 @@ def api_bulk_import():
     return jsonify({"ok": True, "stats": stats})
 
 
+# ---- Stub routes (compatible with frontend, not full featured) ----
+
+@app.route("/api/history", methods=["GET"])
+def api_history():
+    return jsonify([])
+
+
+@app.route("/api/sync/state", methods=["GET"])
+def api_sync_state():
+    with get_relay_conn() as conn:
+        total = conn.execute("SELECT COUNT(*) FROM changes").fetchone()[0]
+        recent = conn.execute("SELECT * FROM changes ORDER BY seq DESC LIMIT 10").fetchall()
+    return jsonify({
+        "ok": True,
+        "device": {"device_id": "cloud", "display_name": "Render Cloud"},
+        "sync": {"last_pull_seq": 0, "last_push_at": 0, "pending_changes": 0, "total_changes": total},
+        "recent_changes": [{"change_id": r["change_id"], "table_name": r["table_name"], "row_id": r["row_id"], "operation": r["operation"], "synced": True} for r in recent],
+        "relay_url": "",
+    })
+
+
+@app.route("/api/sync/device", methods=["GET"])
+def api_sync_device():
+    return jsonify({"ok": True, "device_id": "cloud", "display_name": "Render Cloud", "last_pull_seq": 0, "last_push_at": 0, "pending_changes": 0, "total_changes": 0, "relay_url": "", "sync_interval_sec": 0})
+
+
+@app.route("/api/sync/push", methods=["POST"])
+def api_sync_push_now():
+    return jsonify({"ok": True, "pushed": 0, "pulled": 0, "pending": 0})
+
+
+@app.route("/api/import/preview", methods=["POST"])
+def api_import_preview():
+    return jsonify({"ok": False, "error": "云端暂不支持 Excel 导入，请在本地 Windows 版操作"})
+
+
+@app.route("/api/import/xlsx", methods=["POST"])
+def api_import_xlsx():
+    return jsonify({"ok": False, "error": "云端暂不支持 Excel 导入，请在本地 Windows 版操作"})
+
+
+@app.route("/api/sync/upload", methods=["POST"])
+def api_sync_upload():
+    return jsonify({"ok": False, "error": "云端暂不支持数据库上传"})
+
+
+@app.route("/sync")
+def sync_page():
+    return render_template("sync.html", page="sync")
+
+
 @app.errorhandler(404)
 def page_not_found(error):
     if request.path.startswith("/api/") or request.path.startswith("/export/"):
