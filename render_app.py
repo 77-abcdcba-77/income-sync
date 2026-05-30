@@ -11,13 +11,17 @@ import time
 from datetime import date, datetime
 from pathlib import Path
 
-from flask import Flask, jsonify, redirect, render_template, request, send_file
+from flask import Flask, jsonify, redirect, render_template, request, send_file, session
 
 app = Flask(
     __name__,
     template_folder=str(Path(__file__).resolve().parent / "templates"),
     static_folder=str(Path(__file__).resolve().parent / "static"),
 )
+app.secret_key = os.environ.get("SECRET_KEY", "income-sync-secret-key-2026")
+
+# 密码：环境变量 APP_PASSWORD，默认 123456
+APP_PASSWORD = os.environ.get("APP_PASSWORD", "123456")
 
 DATA_DIR = Path("/tmp/data")
 DB_PATH = DATA_DIR / "records.db"
@@ -140,6 +144,41 @@ def init_relay_db():
         """)
         conn.execute("CREATE INDEX IF NOT EXISTS idx_changes_seq ON changes(seq)")
         conn.commit()
+
+
+# ---- Auth ----
+
+PUBLIC_PATHS = {"/login", "/logout", "/health", "/sync/push", "/sync/pull"}
+
+@app.before_request
+def check_auth():
+    if request.path in PUBLIC_PATHS:
+        return None
+    if request.path.startswith("/static/"):
+        return None
+    if not session.get("logged_in"):
+        if request.path.startswith("/api/"):
+            return jsonify({"ok": False, "error": "请先登录"}), 401
+        return redirect("/login")
+
+
+@app.route("/login", methods=["GET", "POST"])
+def login_page():
+    error = ""
+    if request.method == "POST":
+        pwd = request.form.get("password", "")
+        if pwd == APP_PASSWORD:
+            session["logged_in"] = True
+            return redirect("/dashboard")
+        error = "密码错误"
+    return render_template("login.html", error=error)
+
+
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect("/login")
+
 
 # ---- Serialization ----
 

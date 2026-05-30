@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>登录 - 项目收支统计系统</title>
+<link rel="stylesheet" href="/static/css/style.css">
+<style>
+  .login-wrapper {
+    min-height: 100vh; display: flex; align-items: center; justify-content: center;
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  }
+  .login-box {
+    background: #fff; border-radius: 16px; padding: 40px 32px; width: 100%;
+    max-width: 380px; box-shadow: 0 20px 60px rgba(0,0,0,.3);
+  }
+  .login-box h1 { font-size: 22px; text-align: center; margin-bottom: 4px; }
+  .login-box .sub { font-size: 13px; color: #64748b; text-align: center; margin-bottom: 28px; }
+  .login-box input {
+    width: 100%; padding: 12px 16px; border: 1px solid #e2e8f0; border-radius: 10px;
+    font-size: 15px; margin-bottom: 16px; transition: border-color .15s;
+  }
+  .login-box input:focus { outline: none; border-color: #1D4ED8; }
+  .login-box button {
+    width: 100%; padding: 12px; background: #1D4ED8; color: #fff;
+    border: none; border-radius: 10px; font-size: 15px; font-weight: 600;
+    cursor: pointer; transition: background .15s;
+  }
+  .login-box button:hover { background: #1e40af; }
+  .login-box .error { color: #DC2626; font-size: 13px; text-align: center; margin-bottom: 12px; }
+</style>
+</head>
+<body>
+<div class="login-wrapper">
+  <div class="login-box">
+    <h1>项目收支统计</h1>
+    <p class="sub">请输入密码以继续</p>
+    {% if error %}
+    <p class="error">{{ error }}</p>
+    {% endif %}
+    <form method="POST">
+      <input type="password" name="password" placeholder="密码" autofocus required>
+      <button type="submit">登录</button>
+    </form>
+  </div>
+</div>
+</body>
+</html>
