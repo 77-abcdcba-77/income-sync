@@ -238,8 +238,36 @@ def health():
 @app.route("/api/records", methods=["GET"])
 def api_records():
     with get_app_conn() as conn:
-        rows = conn.execute("SELECT * FROM records ORDER BY id DESC").fetchall()
-    return jsonify([dict(r) for r in rows])
+        rows = conn.execute("""
+            SELECT r.id, r.wechat, r.task_name, r.order_no, r.deadline_status,
+                   r.accepted_date, r.price, r.created_at, r.updated_at,
+                   COALESCE(p.total_paid, 0) AS paid,
+                   COALESCE(b.total_adjustment, 0) AS adjustment
+            FROM records r
+            LEFT JOIN (
+                SELECT record_id, SUM(amount) AS total_paid FROM payments GROUP BY record_id
+            ) p ON p.record_id = r.id
+            LEFT JOIN (
+                SELECT record_id, SUM(amount) AS total_adjustment FROM budget_changes GROUP BY record_id
+            ) b ON b.record_id = r.id
+            ORDER BY r.accepted_date DESC, r.id DESC
+        """).fetchall()
+
+    result = []
+    for row in rows:
+        price = as_float(row["price"])
+        adjustment = as_float(row["adjustment"])
+        total_price = round(price + adjustment, 2)
+        paid = as_float(row["paid"])
+        result.append({
+            "id": row["id"], "wechat": row["wechat"] or "", "task_name": row["task_name"] or "",
+            "order_no": row["order_no"] or "", "deadline_status": row["deadline_status"] or "",
+            "accepted_date": row["accepted_date"] or "", "price": price,
+            "adjustment": adjustment, "total_price": total_price, "paid": paid,
+            "remaining": round(total_price - paid, 2),
+            "created_at": row["created_at"] or "", "updated_at": row["updated_at"] or "",
+        })
+    return jsonify(result)
 
 @app.route("/api/records", methods=["POST"])
 def api_create_record():
@@ -392,27 +420,110 @@ def api_delete_expense(expense_id):
 
 @app.route("/api/stats", methods=["GET"])
 def api_stats():
+    from collections import defaultdict
+
     with get_app_conn() as conn:
-        records = conn.execute("SELECT * FROM records").fetchall()
-        expenses = conn.execute("SELECT * FROM expenses").fetchall()
+        records = conn.execute("""
+            SELECT r.*, COALESCE(p.total_paid, 0) AS paid,
+                   COALESCE(b.total_adjustment, 0) AS adjustment
+            FROM records r
+            LEFT JOIN (SELECT record_id, SUM(amount) AS total_paid FROM payments GROUP BY record_id) p ON p.record_id = r.id
+            LEFT JOIN (SELECT record_id, SUM(amount) AS total_adjustment FROM budget_changes GROUP BY record_id) b ON b.record_id = r.id
+        """).fetchall()
         payments_list = conn.execute("SELECT * FROM payments").fetchall()
+        expenses_list = conn.execute("SELECT * FROM expenses").fetchall()
 
-    total_income = sum(as_float(r["price"]) for r in records)
-    total_paid = sum(as_float(p["amount"]) for p in payments_list)
-    total_expense = sum(as_float(e["amount"]) for e in expenses)
+    records_data = []
+    for row in records:
+        price = as_float(row["price"]); adj = as_float(row["adjustment"])
+        records_data.append({
+            "id": row["id"], "wechat": row["wechat"] or "", "task_name": row["task_name"] or "",
+            "deadline_status": row["deadline_status"] or "", "accepted_date": row["accepted_date"] or "",
+            "price": price, "adjustment": adj, "total_price": round(price + adj, 2),
+            "paid": as_float(row["paid"]),
+            "remaining": round(price + adj - as_float(row["paid"]), 2),
+            "created_at": row["created_at"] or "", "updated_at": row["updated_at"] or "",
+        })
 
-    unpaid_records = [r for r in records if as_float(r["price"]) - as_float(r["paid"]) > 0]
-    total_remaining = sum(as_float(r["price"]) - as_float(r["paid"]) for r in unpaid_records)
+    payments = [{"id": p["id"], "record_id": p["record_id"], "pay_date": p["pay_date"],
+                  "amount": as_float(p["amount"]), "note": p["note"] or ""} for p in payments_list]
+    expenses = [{"id": e["id"], "expense_date": e["expense_date"], "name": e["name"] or "",
+                  "amount": as_float(e["amount"]), "note": e["note"] or ""} for e in expenses_list]
+
+    total_price = sum(r["total_price"] for r in records_data)
+    total_adjustment = sum(r["adjustment"] for r in records_data)
+    total_paid = sum(p["amount"] for p in payments)
+    total_remaining = total_price - total_paid
+    total_expense = sum(e["amount"] for e in expenses)
+
+    _today = today_text()
+    _month = _today[:7]
+    _today_date = date.today()
+
+    unpaid_count = 0; overdue_count = 0; due_soon_count = 0
+    status_buckets = {}
+    clients = {}
+
+    for r in records_data:
+        bucket = r["deadline_status"] or "未填写"
+        status_buckets[bucket] = status_buckets.get(bucket, 0) + 1
+        if r["remaining"] > 0:
+            unpaid_count += 1
+            try:
+                from datetime import datetime as dt
+                dl = (r["deadline_status"] or "")[:10]
+                dl_date = dt.strptime(dl, "%Y-%m-%d").date()
+                delta = (dl_date - _today_date).days
+                if delta < 0: overdue_count += 1
+                elif delta <= 7: due_soon_count += 1
+            except ValueError:
+                pass
+        c = r["wechat"] or "未填写"
+        clients.setdefault(c, {"client": c, "count": 0, "price": 0, "paid": 0, "remaining": 0})
+        clients[c]["count"] += 1
+        clients[c]["price"] += r["total_price"]
+        clients[c]["paid"] += r["paid"]
+        clients[c]["remaining"] += r["remaining"]
+
+    daily_income = defaultdict(float)
+    monthly_income = defaultdict(float)
+    for p in payments:
+        daily_income[p["pay_date"]] += p["amount"]
+        monthly_income[p["pay_date"][:7]] += p["amount"]
+
+    daily_expense = defaultdict(float)
+    monthly_expense = defaultdict(float)
+    for e in expenses:
+        daily_expense[e["expense_date"]] += e["amount"]
+        monthly_expense[e["expense_date"][:7]] += e["amount"]
+
+    top_clients = sorted(clients.values(), key=lambda x: x["price"], reverse=True)[:10]
 
     return jsonify({
-        "record_count": len(records),
-        "total_income": round(total_income, 2),
-        "total_paid": round(total_paid, 2),
-        "total_remaining": round(total_remaining, 2),
-        "total_expense": round(total_expense, 2),
-        "net_income": round(total_paid - total_expense, 2),
-        "unpaid_count": len(unpaid_records),
-        "unpaid_total": round(total_remaining, 2),
+        "summary": {
+            "count": len(records_data), "total_price": round(total_price, 2),
+            "total_adjustment": round(total_adjustment, 2), "total_paid": round(total_paid, 2),
+            "total_remaining": round(total_remaining, 2),
+            "paid_rate": round((total_paid / total_price * 100) if total_price else 0, 2),
+            "total_expense": round(total_expense, 2),
+            "net_income": round(total_paid - total_expense, 2),
+            "today_income": round(daily_income.get(_today, 0), 2),
+            "month_income": round(monthly_income.get(_month, 0), 2),
+            "today_expense": round(daily_expense.get(_today, 0), 2),
+            "month_expense": round(monthly_expense.get(_month, 0), 2),
+            "today_net": round(daily_income.get(_today, 0) - daily_expense.get(_today, 0), 2),
+            "month_net": round(monthly_income.get(_month, 0) - monthly_expense.get(_month, 0), 2),
+            "avg_order_value": round((total_price / len(records_data)) if records_data else 0, 2),
+            "unpaid_count": unpaid_count, "overdue_count": overdue_count, "due_soon_count": due_soon_count,
+        },
+        "daily_income": [{"label": k, "value": round(v, 2)} for k, v in sorted(daily_income.items())],
+        "monthly_income": [{"label": k, "value": round(v, 2)} for k, v in sorted(monthly_income.items())],
+        "daily_expense": [{"label": k, "value": round(v, 2)} for k, v in sorted(daily_expense.items())],
+        "monthly_expense": [{"label": k, "value": round(v, 2)} for k, v in sorted(monthly_expense.items())],
+        "daily_cashflow": [{"label": k, "value": round(daily_income.get(k, 0) - daily_expense.get(k, 0), 2)} for k in sorted(set(daily_income) | set(daily_expense))],
+        "monthly_cashflow": [{"label": k, "value": round(monthly_income.get(k, 0) - monthly_expense.get(k, 0), 2)} for k in sorted(set(monthly_income) | set(monthly_expense))],
+        "status": [{"label": k, "value": v} for k, v in sorted(status_buckets.items())],
+        "top_clients": [{"client": c["client"], "count": c["count"], "price": c["price"], "paid": c["paid"], "remaining": c["remaining"]} for c in top_clients],
     })
 
 # Transfer data from app DB to relay / sync-compatible DB
