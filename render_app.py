@@ -423,6 +423,86 @@ def api_sync_info():
         last_updated = conn.execute("SELECT MAX(updated_at) FROM records").fetchone()[0] or ""
     return jsonify({"ok": True, "info": {"record_count": record_count, "last_updated": last_updated}})
 
+@app.route("/api/import/bulk", methods=["POST"])
+def api_bulk_import():
+    """一次性导入全部数据，用于从本地迁移到云端。"""
+    body = request.get_json(force=True) or {}
+    records_data = body.get("records", [])
+    payments_data = body.get("payments", [])
+    adjustments_data = body.get("budget_changes", [])
+    expenses_data = body.get("expenses", [])
+
+    id_map = {}  # old_id -> new_id (for records)
+    stats = {"records": 0, "payments": 0, "budget_changes": 0, "expenses": 0}
+
+    with get_app_conn() as conn:
+        for r in records_data:
+            old_id = r.get("id")
+            cur = conn.execute(
+                """INSERT INTO records (wechat, task_name, order_no, deadline_status, accepted_date, price, paid, remaining, created_at, updated_at)
+                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                (
+                    clean_text(r.get("wechat")), clean_text(r.get("task_name")),
+                    clean_text(r.get("order_no")), clean_text(r.get("deadline_status")),
+                    clean_date(r.get("accepted_date")), as_float(r.get("price")),
+                    as_float(r.get("paid")), as_float(r.get("remaining")),
+                    r.get("created_at") or now_text(), r.get("updated_at") or now_text(),
+                ),
+            )
+            new_id = cur.lastrowid
+            if old_id is not None:
+                id_map[old_id] = new_id
+            stats["records"] += 1
+
+        for p in payments_data:
+            old_record_id = p.get("record_id")
+            new_record_id = id_map.get(old_record_id)
+            if new_record_id is None:
+                continue
+            conn.execute(
+                """INSERT INTO payments (record_id, pay_date, amount, note, created_at, updated_at)
+                   VALUES (?, ?, ?, ?, ?, ?)""",
+                (
+                    new_record_id, clean_date(p.get("pay_date")),
+                    as_float(p.get("amount")), clean_text(p.get("note")),
+                    p.get("created_at") or now_text(), p.get("updated_at") or now_text(),
+                ),
+            )
+            stats["payments"] += 1
+
+        for a in adjustments_data:
+            old_record_id = a.get("record_id")
+            new_record_id = id_map.get(old_record_id)
+            if new_record_id is None:
+                continue
+            conn.execute(
+                """INSERT INTO budget_changes (record_id, change_date, amount, note, created_at, updated_at)
+                   VALUES (?, ?, ?, ?, ?, ?)""",
+                (
+                    new_record_id, clean_date(a.get("change_date")),
+                    as_float(a.get("amount")), clean_text(a.get("note")),
+                    a.get("created_at") or now_text(), a.get("updated_at") or now_text(),
+                ),
+            )
+            stats["budget_changes"] += 1
+
+        for e in expenses_data:
+            conn.execute(
+                """INSERT INTO expenses (expense_date, name, amount, note, created_at, updated_at)
+                   VALUES (?, ?, ?, ?, ?, ?)""",
+                (
+                    clean_date(e.get("expense_date")), clean_text(e.get("name")),
+                    as_float(e.get("amount")), clean_text(e.get("note")),
+                    e.get("created_at") or now_text(), e.get("updated_at") or now_text(),
+                ),
+            )
+            stats["expenses"] += 1
+
+        conn.commit()
+
+    return jsonify({"ok": True, "stats": stats})
+
+
 @app.errorhandler(404)
 def page_not_found(error):
     if request.path.startswith("/api/") or request.path.startswith("/export/"):
